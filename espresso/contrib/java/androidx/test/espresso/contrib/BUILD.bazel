@@ -1,0 +1,272 @@
+# Description:
+#   Contributed / non-core functionality of Espresso. Tools which add on to
+#   Espresso belong here.
+licenses(["notice"])  # Apache License 2.0
+
+package(
+    default_visibility = ["//:__subpackages__"],
+)
+
+android_library(
+    name = "counting_idling_resource",
+    visibility = ["//visibility:public"],
+    exports = [
+        "//espresso/idling_resource/java/androidx/test/espresso:counting_idling_resource",
+    ],
+)
+
+android_library(
+    name = "scheduled_thread_pool_idling_resource",
+    visibility = ["//visibility:public"],
+    exports = [
+        "//espresso/idling_resource/concurrent/java/androidx/test/espresso/idling/concurrent:scheduled_thread_pool_idling_resource",
+    ],
+)
+
+android_library(
+    name = "thread_pool_idling_resource",
+    visibility = ["//visibility:public"],
+    exports = [
+        "//espresso/idling_resource/concurrent/java/androidx/test/espresso/idling/concurrent:thread_pool_idling_resource",
+    ],
+)
+
+android_library(
+    name = "picker_actions",
+    srcs = ["PickerActions.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":androidx_neverlink",
+        "//espresso/core/java/androidx/test/espresso",
+        "//espresso/core/java/androidx/test/espresso:framework",
+        "//espresso/core/java/androidx/test/espresso:interface",
+        "//espresso/core/java/androidx/test/espresso/matcher",
+        "@hamcrest//jar",
+        "@jsr305//jar",
+    ],
+)
+
+android_library(
+    name = "recycler_view",
+    srcs = ["RecyclerViewActions.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":androidx_neverlink",
+        ":guava_checks",
+        ":recyclerview_neverlink",
+        "//espresso/core/java/androidx/test/espresso",
+        "//espresso/core/java/androidx/test/espresso:framework",
+        "//espresso/core/java/androidx/test/espresso:interface",
+        "//espresso/core/java/androidx/test/espresso/matcher",
+        "@hamcrest//jar",
+        "@jsr305//jar",
+    ],
+)
+
+android_library(
+    name = "drawer_actions",
+    testonly = 1,
+    srcs = [
+        "DrawerActions.java",
+        "DrawerMatchers.java",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":androidx_neverlink",
+        ":drawerlayout_neverlink",
+        "//espresso/core/java/androidx/test/espresso",
+        "//espresso/core/java/androidx/test/espresso:framework",
+        "//espresso/core/java/androidx/test/espresso:interface",
+        "//espresso/core/java/androidx/test/espresso/matcher",
+        "@hamcrest//jar",
+        "@jsr305//jar",
+    ],
+)
+
+android_library(
+    name = "activity_result_matchers",
+    srcs = [
+        "ActivityResultMatchers.java",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@hamcrest//jar",
+    ],
+)
+
+android_library(
+    name = "accessibility_checks",
+    testonly = 1,
+    srcs = [
+        "AccessibilityChecks.java",
+    ],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":guava_checks",
+        "//espresso/core/java/androidx/test/espresso",
+        "//runner/android_junit_runner",
+        "@accessibility//jar",
+        "@hamcrest//jar",
+    ],
+)
+
+android_library(
+    name = "design_lib_actions",
+    testonly = 1,
+    srcs = ["NavigationViewActions.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":androidx_neverlink",
+        ":designlib_neverlink",
+        ":drawerlayout_neverlink",
+        ":recyclerview_neverlink",
+        "//espresso/core/java/androidx/test/espresso",
+        "//espresso/core/java/androidx/test/espresso:framework",
+        "//espresso/core/java/androidx/test/espresso:interface",
+        "//espresso/core/java/androidx/test/espresso/matcher",
+        "@hamcrest//jar",
+        "@jsr305//jar",
+    ],
+)
+
+android_library(
+    name = "view_pager_actions",
+    testonly = 1,
+    srcs = ["ViewPagerActions.java"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":androidx_neverlink",
+        ":view_pager_neverlink",
+        "//espresso/core/java/androidx/test/espresso",
+        "//espresso/core/java/androidx/test/espresso/action",
+        "//espresso/core/java/androidx/test/espresso/matcher",
+        "@hamcrest//jar",
+    ],
+)
+
+android_library(
+    name = "guava_checks",
+    srcs = ["Checks.java"],
+    deps = ["@jsr305//jar"],
+)
+
+android_library(
+    name = "androidx_neverlink",
+    exports_manifest = 0,
+    manifest = "AndroidManifest.xml",
+    neverlink = 1,
+    exports = [
+        "//:androidx_annotation",
+        "//:androidx_core",
+        "//:androidx_legacy_support_core_ui",
+    ],
+)
+
+android_library(
+    name = "recyclerview_neverlink",
+    exports_manifest = 0,
+    manifest = "AndroidManifest.xml",
+    neverlink = 1,
+    exports = ["//:androidx_recyclerview"],
+)
+
+android_library(
+    name = "designlib_neverlink",
+    exports_manifest = 0,
+    manifest = "AndroidManifest.xml",
+    neverlink = 1,
+    exports = ["//:google_android_material"],
+)
+
+android_library(
+    name = "view_pager_neverlink",
+    exports_manifest = 0,
+    manifest = "AndroidManifest.xml",
+    neverlink = 1,
+    exports = [
+        "//:androidx_viewpager",
+    ],
+)
+
+android_library(
+    name = "drawerlayout_neverlink",
+    exports_manifest = 0,
+    manifest = "AndroidManifest.xml",
+    neverlink = 1,
+    exports = [
+        "//:androidx_drawerlayout",
+    ],
+)
+
+load("//build_extensions:release.bzl", "axt_release_lib")
+
+android_library(
+    name = "espresso_contrib_release_lib",
+    testonly = 1,
+    exports = [
+        ":accessibility_checks",
+        ":activity_result_matchers",
+        ":design_lib_actions",
+        ":drawer_actions",
+        ":guava_checks",
+        ":picker_actions",
+        ":recycler_view",
+        ":view_pager_actions",
+    ],
+)
+
+axt_release_lib(
+    name = "espresso_contrib_release",
+    keep_spec = "androidx/test/espresso/contrib",
+    multidex = "native",
+    remove_spec = "androidx/test/espresso/contrib/R[$$\.]",
+    deps = [
+        ":espresso_contrib_release_lib",
+    ],
+)
+
+load("//build_extensions:maven_repo.bzl", "maven_artifact")
+load("//build_extensions:axt_versions.bzl", "ESPRESSO_VERSION", "ANDROIDX_VERSION", "GOOGLE_MATERIAL_VERSION")
+load("//build_extensions:combine_jars.bzl", "combine_jars")
+
+filegroup(
+    name = "contrib_src",
+    srcs = [
+        ":libaccessibility_checks-src.jar",
+        ":libactivity_result_matchers-src.jar",
+        ":libcounting_idling_resource-src.jar",
+        ":libdesign_lib_actions-src.jar",
+        ":libdrawer_actions-src.jar",
+        ":libpicker_actions-src.jar",
+        ":librecycler_view-src.jar",
+        ":libview_pager_actions-src.jar",
+    ],
+)
+
+combine_jars(
+    name = "contrib_src_jars",
+    srcs = [
+        ":contrib_src",
+    ],
+)
+
+maven_artifact(
+    name = "espresso_contrib_maven_artifact",
+    src = ":espresso_contrib_release.aar",
+    artifact_deps = [
+        "androidx.test.espresso:espresso-core:%s" % ESPRESSO_VERSION,
+        "androidx.test.espresso:espresso-idling-resource:%s" % ESPRESSO_VERSION,
+        "com.google.android.material:material:%s" % GOOGLE_MATERIAL_VERSION,
+        "androidx.recyclerview:recyclerview:%s" % ANDROIDX_VERSION,
+        "androidx.drawerlayout:drawerlayout:%s" % ANDROIDX_VERSION,
+        "androidx.viewpager:viewpager:%s" % ANDROIDX_VERSION,
+        "androidx.core:core:%s" % ANDROIDX_VERSION,
+        "androidx.legacy:legacy-support-core-utils:%s" % ANDROIDX_VERSION,
+        "com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:2.0",
+    ],
+    artifact_id = "espresso-contrib",
+    group_id = "androidx.test.espresso",
+    last_updated = "20170622000000",
+    src_jar = ":contrib_src_jars.jar",
+    version = "%s" % ESPRESSO_VERSION,
+)
